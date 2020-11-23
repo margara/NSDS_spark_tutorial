@@ -17,6 +17,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * This code snippet exemplifies a typical scenario in event processing: merging
+ * incoming events with some background knowledge.
+ *
+ * A static dataset (read from a file) classifies products (associates products to the
+ * class they belong to).  A stream of products is received from a socket.
+ *
+ * We want to count the number of products of each class in the stream. To do so, we
+ * need to integrate static knowledge (product classification) and streaming data
+ * (occurrences of products in the stream).
+ */
 public class EventEnrichment {
     public static void main(String[] args) throws TimeoutException {
         LogUtils.setLogLevel();
