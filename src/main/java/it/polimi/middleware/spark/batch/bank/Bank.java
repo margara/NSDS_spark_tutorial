@@ -24,9 +24,6 @@ import it.polimi.middleware.spark.utils.LogUtils;
  * Q1. Print the total amount of withdrawals for each person.
  * Q2. Print the person with the maximum total amount of withdrawals
  * Q3. Print all the accounts with a negative balance
- *
- * The code exemplifies the use of SQL primitives.  By setting the useCache variable,
- * one can see the differences when enabling/disabling cache.
  */
 public class Bank {
     private static final boolean useCache = true;
@@ -64,58 +61,17 @@ public class Bank {
                 .schema(mySchema)
                 .csv(filePath + "files/bank/withdrawals.csv");
 
-        // Used in two different queries
-        if (useCache) {
-            withdrawals.cache();
-        }
-
         // Q1. Total amount of withdrawals for each person
 
-        final Dataset<Row> sumWithdrawals = withdrawals
-                .groupBy("person")
-                .sum("amount")
-                .select("person", "sum(amount)");
-
-        // Used in two different queries
-        if (useCache) {
-            sumWithdrawals.cache();
-        }
-
-        sumWithdrawals.show();
+        // TODO
 
         // Q2. Person with the maximum total amount of withdrawals
 
-        final long maxTotal = sumWithdrawals
-                .agg(max("sum(amount)"))
-                .first()
-                .getLong(0);
-
-        final Dataset<Row> maxWithdrawals = sumWithdrawals
-                .filter(sumWithdrawals.col("sum(amount)").equalTo(maxTotal));
-
-        maxWithdrawals.show();
+        // TODO
 
         // Q3 Accounts with negative balance
 
-        final Dataset<Row> totWithdrawals = withdrawals
-                .groupBy("account")
-                .sum("amount")
-                .drop("person")
-                .as("totalWithdrawals");
-
-        final Dataset<Row> totDeposits = deposits
-                .groupBy("account")
-                .sum("amount")
-                .drop("person")
-                .as("totalDeposits");
-
-        final Dataset<Row> negativeAccounts = totWithdrawals
-                .join(totDeposits, totDeposits.col("account").equalTo(totWithdrawals.col("account")), "left_outer")
-                .filter(totDeposits.col("sum(amount)").isNull().and(totWithdrawals.col("sum(amount)").gt(0)).or
-                                (totWithdrawals.col("sum(amount)").gt(totDeposits.col("sum(amount)")))
-                ).select(totWithdrawals.col("account"));
-
-        negativeAccounts.show();
+        // TODO
 
         spark.close();
 

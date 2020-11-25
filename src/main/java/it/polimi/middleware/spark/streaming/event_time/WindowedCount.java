@@ -33,23 +33,17 @@ public class WindowedCount {
 
         inputRecords.withWatermark("timestamp", "1 hour");
 
-        // Group by window and by value (try to only group by one of the two)
-        final StreamingQuery query = inputRecords
-            .groupBy(
-                window(col("timestamp"), "30 seconds", "10 seconds"),
-                    col("value")
-            )
-                .count()
-                .writeStream()
-                .outputMode("update")
-                .format("console")
-                .start();
+        // Q1: group by window (size 30 seconds, slide 10 seconds)
 
-        try {
-            query.awaitTermination();
-        } catch (final StreamingQueryException e) {
-            e.printStackTrace();
-        }
+        // TODO
+
+        // Q2: group by window (size 30 seconds, slide 10 seconds) and value
+
+        // TODO
+
+        // Q3: group only by value
+
+        // TODO
 
         spark.close();
     }

@@ -24,30 +24,16 @@ public class WordCountModified {
         final JavaRDD<String> lines = sc.textFile(filePath + "files/wordcount/in.txt");
 
         // Q1. For each character, compute the number of words starting with that character
-        final JavaRDD<String> words = lines.flatMap(line -> Arrays.asList(line.split(" ")).iterator());
-        List<Tuple2<String, Integer>> q1 = words
-                .map(String::toLowerCase)
-                .mapToPair(s -> new Tuple2<>(s.substring(0, 1), 1))
-                .reduceByKey((a, b) -> a + b)
-                .collect();
-        System.out.println("Results of query Q1");
-        System.out.println(q1);
+
+        // TODO
 
         // Q2. For each character, compute the number of lines starting with that character
-        List<Tuple2<String, Integer>> q2 = lines
-                .map(String::toLowerCase)
-                .mapToPair(s -> new Tuple2<>(s.substring(0, 1), 1))
-                .reduceByKey((a, b) -> a + b)
-                .collect();
-        System.out.println("Results of query Q2");
-        System.out.println(q2);
+
+        // TODO
 
         // Q3. Compute the average number of characters in each line
-        Tuple2<Integer, Integer> q3 = lines
-                .mapToPair(s -> new Tuple2<>(s.length(), 1))
-                .reduce((a, b) -> new Tuple2<>(a._1 + b._1, a._2 + b._2));
-        System.out.println("Results of query Q3");
-        System.out.println(((float) q3._1) / q3._2);
+
+        // TODO
 
         sc.close();
     }

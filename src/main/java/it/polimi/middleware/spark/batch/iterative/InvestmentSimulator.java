@@ -28,30 +28,13 @@ public class InvestmentSimulator {
 
         final JavaRDD<String> textFile = sc.textFile(filePath + "files/iterative/investment.txt");
 
-        // Transforms each line into a tuple (amount_owned, investment_rate)
-        JavaRDD<Tuple2<Double, Double>> investments = textFile.map(w -> {
-            String[] values = w.split(" ");
-            double amountOwned = Double.parseDouble(values[0]);
-            double investmentRate = Double.parseDouble(values[1]);
-            return new Tuple2(amountOwned, investmentRate);
-        });
-
         int iteration = 0;
-        double sum = sumAmount(investments);
-        while (sum < threshold) {
-            iteration++;
-            investments = investments.map(i -> new Tuple2<>(i._1*(1+i._2), i._2));
-            sum = sumAmount(investments);
-        }
+        double sum = 0;
+
+        // TODO
 
         System.out.println("Sum: " + sum + " after " + iteration + " iterations");
         sc.close();
-    }
-
-    private static final double sumAmount(JavaRDD<Tuple2<Double, Double>> investments) {
-        return investments
-                .map(a -> a._1)
-                .reduce((a, b) -> a+b);
     }
 
 }

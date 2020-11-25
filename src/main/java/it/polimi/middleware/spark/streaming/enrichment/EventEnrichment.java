@@ -65,20 +65,9 @@ public class EventEnrichment {
                 .schema(productClassificationSchema)
                 .csv(filePath + "files/enrichment/product_classification.csv");
 
-        final StreamingQuery query = inStreamDF
-                .join(productsClassification, inStreamDF.col("product").equalTo(productsClassification.col("product")))
-                .groupBy("classification")
-                .count()
-                .writeStream()
-                .outputMode("update")
-                .format("console")
-                .start();
+        // Query: count the number of products of each class in the stream
 
-        try {
-            query.awaitTermination();
-        } catch (final StreamingQueryException e) {
-            e.printStackTrace();
-        }
+        // TODO
 
         spark.close();
     }
