@@ -14,8 +14,12 @@ import java.util.Arrays;
  *
  * Implement an iterative algorithm that computes the new amount for each investment and stops
  * when the overall amount overcomes 1000.
+ *
+ * Set the value of the flag useCache to see the effects of caching.
  */
 public class InvestmentSimulator {
+    private static final boolean useCache = true;
+
     public static void main(String[] args) {
         LogUtils.setLogLevel();
 
@@ -41,6 +45,9 @@ public class InvestmentSimulator {
         while (sum < threshold) {
             iteration++;
             investments = investments.map(i -> new Tuple2<>(i._1*(1+i._2), i._2));
+            if (useCache) {
+                investments.cache();
+            }
             sum = sumAmount(investments);
         }
 
