@@ -35,7 +35,7 @@ public class InvestmentSimulatorUnpersist {
             String[] values = w.split(" ");
             double amountOwned = Double.parseDouble(values[0]);
             double investmentRate = Double.parseDouble(values[1]);
-            return new Tuple2(amountOwned, investmentRate);
+            return new Tuple2<>(amountOwned, investmentRate);
         });
 
         JavaRDD<Tuple2<Double, Double>> oldInvestments = investments;
@@ -66,8 +66,8 @@ public class InvestmentSimulatorUnpersist {
 
     private static final double sumAmount(JavaRDD<Tuple2<Double, Double>> investments) {
         return investments
-                .map(a -> a._1)
-                .reduce((a, b) -> a+b);
+                .mapToDouble(a -> a._1)
+                .sum();
     }
 
 }
