@@ -43,7 +43,7 @@ public class StreamingWordCountWithState {
 
         final JavaMapWithStateDStream<String, Integer, Integer, Tuple2<String, Integer>> state = sc
                 .socketTextStream(socketHost, socketPort)
-                // .window(Durations.seconds(5))
+                .window(Durations.seconds(5))
                 .map(String::toLowerCase)
                 .flatMap(line -> Arrays.asList(line.split(" ")).iterator())
                 .mapToPair(word -> new Tuple2<>(word, 1))
