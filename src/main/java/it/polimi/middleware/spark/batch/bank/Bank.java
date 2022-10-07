@@ -41,7 +41,7 @@ public class Bank {
         final SparkSession spark = SparkSession
                 .builder()
                 .master(master)
-                .appName("Bank")
+                .appName(appName)
                 .getOrCreate();
 
         final List<StructField> mySchemaFields = new ArrayList<>();
