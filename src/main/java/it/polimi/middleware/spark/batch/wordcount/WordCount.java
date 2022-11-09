@@ -7,14 +7,11 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
-import it.polimi.middleware.spark.utils.LogUtils;
 import scala.Tuple2;
 
 public class WordCount {
 
     public static void main(String[] args) {
-        LogUtils.setLogLevel();
-
         final String master = args.length > 0 ? args[0] : "local[4]";
         final String filePath = args.length > 1 ? args[1] : "./";
 
