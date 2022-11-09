@@ -14,19 +14,17 @@ import org.apache.spark.streaming.StateSpec;
 import org.apache.spark.streaming.api.java.JavaMapWithStateDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
-import it.polimi.middleware.spark.utils.LogUtils;
 import scala.Tuple2;
 
 public class StreamingWordCountWithState {
     public static void main(String[] args) {
-        LogUtils.setLogLevel();
-
         final String master = args.length > 0 ? args[0] : "local[4]";
         final String socketHost = args.length > 1 ? args[1] : "localhost";
         final int socketPort = args.length > 2 ? Integer.parseInt(args[2]) : 9999;
 
         final SparkConf conf = new SparkConf().setMaster(master).setAppName("StreamingWordCountWithState");
         final JavaStreamingContext sc = new JavaStreamingContext(conf, Durations.seconds(1));
+        sc.sparkContext().setLogLevel("ERROR");
 
         // Checkpoint directory where the state is stored
         sc.checkpoint("/tmp/");
@@ -43,7 +41,6 @@ public class StreamingWordCountWithState {
 
         final JavaMapWithStateDStream<String, Integer, Integer, Tuple2<String, Integer>> state = sc
                 .socketTextStream(socketHost, socketPort)
-                .window(Durations.seconds(5))
                 .map(String::toLowerCase)
                 .flatMap(line -> Arrays.asList(line.split(" ")).iterator())
                 .mapToPair(word -> new Tuple2<>(word, 1))

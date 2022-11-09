@@ -12,8 +12,6 @@ import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
-import it.polimi.middleware.spark.utils.LogUtils;
-
 /**
  * Bank example
  *
@@ -32,8 +30,6 @@ public class Bank {
     private static final boolean useCache = true;
 
     public static void main(String[] args) {
-        LogUtils.setLogLevel();
-
         final String master = args.length > 0 ? args[0] : "local[4]";
         final String filePath = args.length > 1 ? args[1] : "./";
         final String appName = useCache ? "BankWithCache" : "BankNoCache";
@@ -43,6 +39,7 @@ public class Bank {
                 .master(master)
                 .appName(appName)
                 .getOrCreate();
+        spark.sparkContext().setLogLevel("ERROR");
 
         final List<StructField> mySchemaFields = new ArrayList<>();
         mySchemaFields.add(DataTypes.createStructField("person", DataTypes.StringType, true));

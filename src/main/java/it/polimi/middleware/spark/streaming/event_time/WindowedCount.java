@@ -1,6 +1,5 @@
 package it.polimi.middleware.spark.streaming.event_time;
 
-import it.polimi.middleware.spark.utils.LogUtils;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -12,8 +11,6 @@ import java.util.concurrent.TimeoutException;
 
 public class WindowedCount {
     public static void main(String[] args) throws TimeoutException {
-        LogUtils.setLogLevel();
-
         final String master = args.length > 0 ? args[0] : "local[4]";
 
         final SparkSession spark = SparkSession
@@ -21,6 +18,7 @@ public class WindowedCount {
                 .master(master)
                 .appName("WindowedCount")
                 .getOrCreate();
+        spark.sparkContext().setLogLevel("ERROR");
 
         // Create DataFrame from a rate source.
         // A rate source generates records with a timestamp and a value at a fixed rate.
