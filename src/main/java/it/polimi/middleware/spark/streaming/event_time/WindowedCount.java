@@ -26,7 +26,7 @@ public class WindowedCount {
         final Dataset<Row> inputRecords = spark
                 .readStream()
                 .format("rate")
-                .option("rowPerSecond", 10)
+                .option("rowsPerSecond", 10)
                 .load();
 
         inputRecords.withWatermark("timestamp", "1 hour");
