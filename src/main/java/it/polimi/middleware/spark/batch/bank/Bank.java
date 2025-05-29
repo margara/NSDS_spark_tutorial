@@ -2,6 +2,7 @@ package it.polimi.middleware.spark.batch.bank;
 
 import static org.apache.spark.sql.functions.max;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import org.apache.spark.sql.types.StructType;
 public class Bank {
     private static final boolean useCache = true;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         final String master = args.length > 0 ? args[0] : "local[4]";
         final String filePath = args.length > 1 ? args[1] : "./";
         final String appName = useCache ? "BankWithCache" : "BankNoCache";

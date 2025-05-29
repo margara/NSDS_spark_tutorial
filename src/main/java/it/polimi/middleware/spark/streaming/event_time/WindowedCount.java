@@ -7,10 +7,9 @@ import org.apache.spark.sql.streaming.StreamingQuery;
 import org.apache.spark.sql.streaming.StreamingQueryException;
 
 import static org.apache.spark.sql.functions.*;
-import java.util.concurrent.TimeoutException;
 
 public class WindowedCount {
-    public static void main(String[] args) throws TimeoutException {
+    public static void main(String[] args) throws Exception {
         final String master = args.length > 0 ? args[0] : "local[4]";
 
         final SparkSession spark = SparkSession

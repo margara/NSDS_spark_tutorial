@@ -1,7 +1,6 @@
 package it.polimi.middleware.spark.streaming.wordcount;
 
 import java.util.Arrays;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.sql.Dataset;
@@ -12,7 +11,7 @@ import org.apache.spark.sql.streaming.StreamingQuery;
 import org.apache.spark.sql.streaming.StreamingQueryException;
 
 public class StructuredStreamingWordCount {
-    public static void main(String[] args) throws TimeoutException {
+    public static void main(String[] args) throws Exception {
         final String master = args.length > 0 ? args[0] : "local[4]";
         final String socketHost = args.length > 1 ? args[1] : "localhost";
         final int socketPort = args.length > 2 ? Integer.parseInt(args[2]) : 9999;

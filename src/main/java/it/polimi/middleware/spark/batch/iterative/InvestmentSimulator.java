@@ -5,8 +5,6 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import scala.Tuple2;
 
-import java.util.Arrays;
-
 /**
  * Start from a dataset of investments. Each element is a Tuple2(amount_owned, interest_rate).
  * At each iteration the new amount is (amount_owned * (1+interest_rate)).
@@ -20,9 +18,9 @@ public class InvestmentSimulator {
     private static final boolean useCache = true;
 
     public static void main(String[] args) {
-        final String master = args.length > 0 ? args[0] : "local[1]";
+        final String master = args.length > 0 ? args[0] : "local[4]";
         final String filePath = args.length > 1 ? args[1] : "./";
-        final double threshold = 1000;
+        final double threshold = 100;
 
         final SparkConf conf = new SparkConf().setMaster(master).setAppName("InvestmentSimulator");
         final JavaSparkContext sc = new JavaSparkContext(conf);
@@ -42,7 +40,10 @@ public class InvestmentSimulator {
         double sum = sumAmount(investments);
         while (sum < threshold) {
             iteration++;
-            investments = investments.map(i -> new Tuple2<>(i._1*(1+i._2), i._2));
+            investments = investments.map(i -> {
+                System.out.println("AAA");
+                return new Tuple2<>(i._1*(1+i._2), i._2);
+            });
             if (useCache) {
                 investments.cache();
             }
@@ -53,7 +54,7 @@ public class InvestmentSimulator {
         sc.close();
     }
 
-    private static final double sumAmount(JavaRDD<Tuple2<Double, Double>> investments) {
+    private static double sumAmount(JavaRDD<Tuple2<Double, Double>> investments) {
         return investments
                 .mapToDouble(a -> a._1)
                 .sum();

@@ -11,7 +11,6 @@ import org.apache.spark.sql.types.StructType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 /**
  * This code snippet exemplifies a typical scenario in event processing: merging
@@ -25,7 +24,7 @@ import java.util.concurrent.TimeoutException;
  * (occurrences of products in the stream).
  */
 public class EventEnrichment {
-    public static void main(String[] args) throws TimeoutException {
+    public static void main(String[] args) throws Exception {
         final String master = args.length > 0 ? args[0] : "local[4]";
         final String socketHost = args.length > 1 ? args[1] : "localhost";
         final int socketPort = args.length > 2 ? Integer.parseInt(args[2]) : 9999;
