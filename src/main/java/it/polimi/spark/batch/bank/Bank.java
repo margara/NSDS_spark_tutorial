@@ -1,4 +1,4 @@
-package it.polimi.middleware.spark.batch.bank;
+package it.polimi.spark.batch.bank;
 
 import static org.apache.spark.sql.functions.max;
 
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polimi.spark.common.Consts;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -31,8 +32,8 @@ public class Bank {
     private static final boolean useCache = true;
 
     public static void main(String[] args) throws IOException {
-        final String master = args.length > 0 ? args[0] : "local[4]";
-        final String filePath = args.length > 1 ? args[1] : "./";
+        final String master = args.length > 0 ? args[0] : Consts.MASTER_ADDR_DEFAULT;
+        final String filePath = args.length > 1 ? args[1] : Consts.FILE_PATH_DEFAULT;
         final String appName = useCache ? "BankWithCache" : "BankNoCache";
 
         final SparkSession spark = SparkSession

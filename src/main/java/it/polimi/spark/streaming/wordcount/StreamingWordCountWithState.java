@@ -1,9 +1,10 @@
-package it.polimi.middleware.spark.streaming.wordcount;
+package it.polimi.spark.streaming.wordcount;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import it.polimi.spark.common.Consts;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.Optional;
@@ -18,9 +19,9 @@ import scala.Tuple2;
 
 public class StreamingWordCountWithState {
     public static void main(String[] args) {
-        final String master = args.length > 0 ? args[0] : "local[4]";
-        final String socketHost = args.length > 1 ? args[1] : "localhost";
-        final int socketPort = args.length > 2 ? Integer.parseInt(args[2]) : 9999;
+        final String master = args.length > 0 ? args[0] : Consts.MASTER_ADDR_DEFAULT;
+        final String socketHost = args.length > 1 ? args[1] : Consts.SOCKET_HOST_DEFAULT;
+        final int socketPort = args.length > 2 ? Integer.parseInt(args[2]) : Consts.SOCKET_PORT_DEFAULT;
 
         final SparkConf conf = new SparkConf().setMaster(master).setAppName("StreamingWordCountWithState");
         final JavaStreamingContext sc = new JavaStreamingContext(conf, Durations.seconds(1));
