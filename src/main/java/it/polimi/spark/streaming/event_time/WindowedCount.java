@@ -1,5 +1,6 @@
-package it.polimi.middleware.spark.streaming.event_time;
+package it.polimi.spark.streaming.event_time;
 
+import it.polimi.spark.common.Consts;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -7,8 +8,8 @@ import org.apache.spark.sql.SparkSession;
 import java.util.concurrent.TimeoutException;
 
 public class WindowedCount {
-    public static void main(String[] args) throws TimeoutException {
-        final String master = args.length > 0 ? args[0] : "local[4]";
+    public static void main(String[] args) throws Exception {
+        final String master = args.length > 0 ? args[0] : Consts.MASTER_ADDR_DEFAULT;
 
         final SparkSession spark = SparkSession
                 .builder()

@@ -1,5 +1,6 @@
-package it.polimi.middleware.spark.streaming.enrichment;
+package it.polimi.spark.streaming.enrichment;
 
+import it.polimi.spark.common.Consts;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -23,11 +24,12 @@ import java.util.concurrent.TimeoutException;
  * (occurrences of products in the stream).
  */
 public class EventEnrichment {
-    public static void main(String[] args) throws TimeoutException {
-        final String master = args.length > 0 ? args[0] : "local[4]";
-        final String socketHost = args.length > 1 ? args[1] : "localhost";
-        final int socketPort = args.length > 2 ? Integer.parseInt(args[2]) : 9999;
-        final String filePath = args.length > 3 ? args[3] : "./";
+    public static void main(String[] args) throws Exception {
+        final String master = args.length > 0 ? args[0] : Consts.MASTER_ADDR_DEFAULT;
+        final String filePath = args.length > 1 ? args[1] : Consts.FILE_PATH_DEFAULT;
+
+        final String socketHost = args.length > 2 ? args[2] : Consts.SOCKET_HOST_DEFAULT;
+        final int socketPort = args.length > 3 ? Integer.parseInt(args[3]) : Consts.SOCKET_PORT_DEFAULT;
 
         final SparkSession spark = SparkSession
                 .builder()
