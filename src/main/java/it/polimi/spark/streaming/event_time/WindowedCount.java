@@ -23,7 +23,7 @@ public class WindowedCount {
         final Dataset<Row> inputRecords = spark
                 .readStream()
                 .format("rate")
-                .option("rowsPerSecond", 10)
+                .option("rowsPerSecond", 1)
                 .load();
         spark.sparkContext().setLogLevel("ERROR");
 
