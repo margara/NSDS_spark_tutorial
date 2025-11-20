@@ -26,14 +26,16 @@ public class WindowedCount {
         final Dataset<Row> inputRecords = spark
                 .readStream()
                 .format("rate")
-                .option("rowsPerSecond", 10)
+                .option("rowsPerSecond", 1)
                 .load();
 
         inputRecords.withWatermark("timestamp", "1 hour");
 
         // Group by window and by value (try to only group by one of the two)
         final StreamingQuery query = inputRecords
-            .groupBy(
+                .withColumn("value", col("value").mod(100))
+                .withColumn("timestamp", date_format(col("timestamp"), "HH:mm:ss"))
+                .groupBy(
                 window(col("timestamp"), "30 seconds", "10 seconds"),
                     col("value")
             )
