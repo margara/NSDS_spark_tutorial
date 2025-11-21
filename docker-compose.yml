@@ -1,0 +1,50 @@
+services:
+  spark-master:
+    image: apache/spark
+    container_name: spark-master
+    command: ["/opt/spark/sbin/start-master.sh", "-h", "spark-master"]
+    environment:
+      - SPARK_MODE=master
+      - SPARK_NO_DAEMONIZE=true
+    ports:
+      - "8080:8080"  # UI Master
+      - "7077:7077"  # RPC Master
+    networks:
+      - spark
+    volumes:
+      - /tmp/input:/tmp/input
+
+  spark-worker:
+    image: apache/spark
+    container_name: spark-worker
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_NO_DAEMONIZE=true
+    depends_on:
+      - spark-master
+    command: ["/opt/spark/sbin/start-worker.sh", "spark://spark-master:7077"]
+    networks:
+      - spark
+    volumes:
+      - /tmp/input:/tmp/input
+
+  history-server:
+    image: apache/spark
+    container_name: spark-history
+    environment:
+      - SPARK_MODE=history-server
+      - SPARK_NO_DAEMONIZE=true
+    ports:
+      - "18080:18080"
+    networks:
+      - spark
+    command: ["/opt/spark/sbin/start-history-server.sh"]
+    volumes:
+      - spark-logs:/tmp/spark-events
+
+networks:
+  spark:
+
+volumes:
+  spark-logs:
